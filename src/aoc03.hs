@@ -30,11 +30,8 @@ findRating :: (Int -> Int -> Bool) -> [[Int]] -> [Int]
 findRating cmp bss = go1st $ zip bss bss
   where
     go1st [(_s, bs)] = bs
-    go1st bs2s
-      = go1st
-      $ map    (\(_:as, bs) -> (as, bs))
-      $ filter (\(a:__, bs) -> a == d) bs2s
+    go1st bs2s = go1st [(as, bs) | (a:as, bs) <- bs2s, a==d]
       where
-        s = length bs2s
         d = if (2*k) `cmp` s then 1 else 0
         k = sum $ map (head . fst) bs2s
+        s = length bs2s
